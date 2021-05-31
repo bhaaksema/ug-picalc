@@ -1,0 +1,30 @@
+*** Calculus indemendent equations of CINNI
+
+fmod CINNI is
+  protecting NAME .
+
+  sort Subst .
+  op [_:=_] : Qid Name -> Subst .
+  op [shiftup_] : Qid -> Subst .
+  op [shiftdown_] : Qid -> Subst .
+  op [lift__] : Qid Subst -> Subst .
+  op __ : Subst Name -> Name .
+
+  vars x y : Qid .
+  var n : Nat .
+  var a : Name .
+  var S : Subst .
+
+  eq [x := a] x{0} = a .
+  eq [x := a] x{s(n)} = x{n} .
+  ceq [x := a] y{n} = y{n} if x =/= y .
+
+  eq [shiftup x] x{n} = x{s(n)} .
+  ceq [shiftup x] y{n} = y{n} if x =/= y .
+
+  eq [shiftdown x] y{n} = [x := x{0}] y{n} .
+
+  eq [lift x S] x{0} = x{0} .
+  eq [lift x S] x{s(n)} = [shiftup x] S x{n} .
+  ceq [lift x S] y{n} = [shiftup x] S y{n} if x =/= y .
+endfm

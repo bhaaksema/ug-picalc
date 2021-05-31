@@ -1,0 +1,9 @@
+*** Names and the operations they support
+
+fmod NAME is
+  protecting NAT .
+  protecting QID .
+
+  sort Name .
+  op _{_} : Qid Nat -> Name [prec 1] .
+endfm

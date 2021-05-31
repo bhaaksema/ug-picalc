@@ -1,0 +1,9 @@
+load NAME .
+load CINNI .
+load NAMESET .
+load SYNTAX .
+load SEMANTICS .
+
+search [mt] ((('x{0} < 'u{0} > . nil) + nil) | ('z{0}('u) . nil + nil)) =>! X:EnvAgent .
+
+quit
