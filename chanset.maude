@@ -1,45 +1,21 @@
+*** Sets of channels
+
 fmod CHANSET is
-  including CINNI .
+  protecting CINNI .
 
   sort Chanset .
   subsort Chan < Chanset .
-  op mt : -> Chanset .
-  op __ : Chanset Chanset -> Chanset [assoc comm id: mt] .
-  op _in_ : Chan Chanset -> Bool .
-  op _subset_ : Chanset Chanset -> Bool .
+  op empty : -> Chanset .
+  op __ : Chanset Chanset -> Chanset [assoc comm id: empty] .
   op __ : Subst Chanset -> Chanset .
 
-  *** eliminate duplicate elements
+  *** Eliminate duplicate elements
   vars a b : Chan .
-  vars CS CS1 CS2 : Chanset .
+  var CS : Chanset .
   eq a a CS = a CS .
 
-  *** set membership
-  eq a in mt = false .
-  eq a in b CS = a == b or a in CS .
-
-  *** subset relation .
-  eq mt subset CS = true .
-  eq a CS1 subset CS2 = a in CS2 and CS1 subset CS2 .
-
-  *** substitution
+  *** Substitution
   var S : Subst .
-  eq S mt = mt .
+  eq S empty = empty .
   eq S (a CS) = (S a) (S CS) .
-
-  *** generate fresh qids wrt a given set of names
-  var x y : Qid .
-  var n : Nat .
-  op _usedin_ : Qid Chanset -> Bool .
-  eq x usedin mt = false .
-  eq x usedin y{n} CS = x == y or x usedin CS .
-
-  *** reduces the index of names with the given qid
-  *** as tag, removing the name if its index is 0
-  op down : Qid Chanset -> Chanset .
-  eq down(x, mt) = mt .
-  eq down(x, y{0} CS) = if x == y then down(x, CS)
-    else y{0} down (x, CS) fi .
-  eq down(x, y{s(n)} CS) = if x == y then y{n} down(x, CS)
-    else y{s(n)} down(x, CS) fi .
 endfm

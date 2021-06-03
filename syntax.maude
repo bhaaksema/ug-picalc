@@ -1,43 +1,38 @@
 fmod SYNTAX is
-  protecting CHANSET .
+  protecting CINNI .
 
-  *** Syntax and axioms of structural congruence
+  *** Syntax definition
   sort Guard .
   op _<_> : Chan Chan -> Guard [frozen prec 6] .
   op _(_) : Chan Qid -> Guard [prec 5] .
 
-  sort Agent .
-  op _|_ : Agent Agent -> Agent [frozen assoc comm prec 15 id: nil] .
-  op [_]_ : Qid Agent -> Agent [frozen prec 8] .
-  op !_ : Agent -> Agent [frozen prec 10] .
+  sort Trm .
+  op _|_ : Trm Trm -> Trm [frozen assoc comm prec 15 id: nil] .
+  op [_]_ : Qid Trm -> Trm [frozen prec 8] .
+  op !_ : Trm -> Trm [frozen prec 10] .
 
-  sort Sum .
-  subsort Sum < Agent .
-  op nil : -> Sum .
-  op _._ : Guard Agent -> Sum [frozen prec 7] .
-  op _+_ : Sum Sum -> Sum [frozen assoc comm prec 12 id: nil] .
+  sort SumTrm .
+  subsort SumTrm < Trm .
+  op nil : -> SumTrm .
+  op _._ : Guard Trm -> SumTrm [frozen prec 7] .
+  op _+_ : SumTrm SumTrm -> SumTrm [frozen assoc comm prec 12 id: nil] .
+
+  *** Structural congruence restriction
+  vars P Q : Trm .
+  var x y : Qid .
+  eq [x] nil = nil .
+  ceq [x] P | Q = [x] (P | [shift x] Q) if P =/= nil and Q =/= nil .
+  ceq [x] [y] P = [y] [x] P if string(y) < string(x) .
 
   *** Substitution rules
   var S : Subst .
   vars a b : Chan .
-  vars P Q : Agent .
-  var x : Qid .
-  op __ : Subst Agent -> Agent [prec 3] .
-  eq S (a(x) . P) = (S a)(x) . ([lift x S] P) .
+  op __ : Subst Trm -> Trm [prec 3] .
   eq S (a < b > . P) = (S a) < (S b) > . (S P) .
+  eq S (a(x) . P) = (S a)(x) . ([lift x S] P) .
+  ceq S (P | Q) = (S P) | (S Q) if Q =/= nil and P =/= nil .
   eq S ([x] P) = [x] ([lift x S] P) .
   eq S (! P) = ! (S P) .
-  eq S (P | Q) = (S P) | (S Q) . *** if Q =/= nil and P =/= nil .
   eq S nil = nil .
   eq S (P + Q) = (S P) + (S Q) .
-
-  *** Free names in an agent
-  op fn : Agent -> Chanset .
-  eq fn(nil) = mt .
-  eq fn(a < b > . P ) = a b .
-  eq fn(a(x) . P) = a down(x, fn(P)) .
-  eq fn(P | Q) = fn(P) fn(Q) . *** if P =/= nil and Q =/= nil .
-  eq fn(P + Q) = fn(P) fn(Q) .
-  eq fn([x] P) = down(x, fn(P)) .
-  eq fn(! P) = fn(P) .
 endfm

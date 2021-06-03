@@ -1,17 +1,19 @@
+*** Operational reduction semantics
+
 mod SEMANTICS is
-  including CHANSET .
-  including SYNTAX .
+  protecting CHANSET .
+  protecting SYNTAX .
 
-  sorts EnvAgent .
-  op [_]_ : Chanset Agent -> EnvAgent [frozen] .
+  sorts EnvTrm .
+  op [_]_ : Chanset Trm -> EnvTrm [frozen] .
 
-  vars CS CS1 CS2 : Chanset .
-  vars P1 P'1 P2 P'2 : Agent .
-  var M1 M2 : Sum .
+  var CS : Chanset .
+  vars P1 P1' P2 : Trm .
+  var M1 M2 : SumTrm .
   var x : Qid .
-  vars a b c : Chan .
+  vars a b : Chan .
 
-  rl [COM] : [CS1 CS2] ((a < b > . P1) + M1) | ((b(x) . P2) + M2) => [CS1 CS2] ([x := CS1] P1 + P2) .
-  crl [PAR] : [CS] (P1 | P2) => [CS] (P'1 | P2) if [CS] P1 => [CS] P'1 .
-  crl [RES] : [CS] ([x] P1) => [CS] ([x] P'1) if [CS] P1 => [CS] P'1 .
+  rl [COM] : [a CS] ((a < b > . P1) + M1) | ((b(x) . P2) + M2) => [a CS] ([x := a] P1 + P2) .
+  crl [PAR] : [CS] P1 | P2 => [CS] P1' | P2 if P1 =/= nil /\ [CS] P1 => [CS] P1' .
+  crl [RES] : [CS] [x] P1 => [CS] [x] P1' if [CS] P1 => [CS] P1' .
 endm

@@ -1,4 +1,3 @@
-load CHAN .
 load CINNI .
 load CHANSET .
 load SYNTAX .
@@ -23,9 +22,15 @@ red 'x{0}('x) . nil | 'y{0}('y) . nil == 'y{0}('y) . nil | 'x{0}('x) . nil .
 red 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
 
 *** SC-RES
-red ['x]['y] nil == ['y]['x] nil .
+red ['x]['y] 'x{0}('x) . nil == ['y]['x] 'x{0}('x) . nil .
 
 *** SC-RES-INACT
 red ['x] nil == nil .
+
+*** SC-RES-COMP
+red 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
+
+*** NIL
+search [empty] nil =>! X:EnvTrm .
 
 quit
