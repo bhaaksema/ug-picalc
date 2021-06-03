@@ -1,17 +1,17 @@
 mod SEMANTICS is
-  including NAMESET .
+  including CHANSET .
   including SYNTAX .
 
   sorts EnvAgent .
-  op [_]_ : Nameset Agent -> EnvAgent [frozen] .
+  op [_]_ : Chanset Agent -> EnvAgent [frozen] .
 
-  vars E F : Nameset .
-  vars P Q R : Agent .
-  var SUM : Sum .
+  vars CS CS1 CS2 : Chanset .
+  vars P1 P'1 P2 P'2 : Agent .
+  var M1 M2 : Sum .
   var x : Qid .
-  vars a b c : Name .
+  vars a b c : Chan .
 
-  rl [COM] : [E F] ((a < b > . P) + SUM) | ((b(x) . Q) + SUM) => [E F] ([x := E] P | Q) .
-  crl [PAR] : [E] (P | Q) => [E] (R | Q) if [E] P => [E] R .
-  crl [RES] : [E] ([x] P) => [E] ([x] R) if [E] P => [E] R .
+  rl [COM] : [CS1 CS2] ((a < b > . P1) + M1) | ((b(x) . P2) + M2) => [CS1 CS2] ([x := CS1] P1 + P2) .
+  crl [PAR] : [CS] (P1 | P2) => [CS] (P'1 | P2) if [CS] P1 => [CS] P'1 .
+  crl [RES] : [CS] ([x] P1) => [CS] ([x] P'1) if [CS] P1 => [CS] P'1 .
 endm

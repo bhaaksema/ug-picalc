@@ -1,13 +1,13 @@
 fmod SYNTAX is
-  protecting NAMESET .
+  protecting CHANSET .
 
   *** Syntax and axioms of structural congruence
   sort Guard .
-  op _<_> : Name Name -> Guard [frozen prec 6] .
-  op _(_) : Name Qid -> Guard [prec 5] .
+  op _<_> : Chan Chan -> Guard [frozen prec 6] .
+  op _(_) : Chan Qid -> Guard [prec 5] .
 
   sort Agent .
-  op _|_ : Agent Agent -> Agent [frozen assoc comm prec 15] .
+  op _|_ : Agent Agent -> Agent [frozen assoc comm prec 15 id: nil] .
   op [_]_ : Qid Agent -> Agent [frozen prec 8] .
   op !_ : Agent -> Agent [frozen prec 10] .
 
@@ -15,11 +15,11 @@ fmod SYNTAX is
   subsort Sum < Agent .
   op nil : -> Sum .
   op _._ : Guard Agent -> Sum [frozen prec 7] .
-  op _+_ : Sum Sum -> Sum [frozen assoc comm prec 12] .
+  op _+_ : Sum Sum -> Sum [frozen assoc comm prec 12 id: nil] .
 
   *** Substitution rules
   var S : Subst .
-  vars a b : Name .
+  vars a b : Chan .
   vars P Q : Agent .
   var x : Qid .
   op __ : Subst Agent -> Agent [prec 3] .
@@ -30,4 +30,14 @@ fmod SYNTAX is
   eq S (P | Q) = (S P) | (S Q) . *** if Q =/= nil and P =/= nil .
   eq S nil = nil .
   eq S (P + Q) = (S P) + (S Q) .
+
+  *** Free names in an agent
+  op fn : Agent -> Chanset .
+  eq fn(nil) = mt .
+  eq fn(a < b > . P ) = a b .
+  eq fn(a(x) . P) = a down(x, fn(P)) .
+  eq fn(P | Q) = fn(P) fn(Q) . *** if P =/= nil and Q =/= nil .
+  eq fn(P + Q) = fn(P) fn(Q) .
+  eq fn([x] P) = down(x, fn(P)) .
+  eq fn(! P) = fn(P) .
 endfm

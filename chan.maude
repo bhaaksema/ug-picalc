@@ -1,0 +1,9 @@
+*** Channels and operations on them
+
+fmod CHAN is
+  protecting NAT .
+  protecting QID .
+
+  sort Chan .
+  op _{_} : Qid Nat -> Chan [prec 1] .
+endfm

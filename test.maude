@@ -1,9 +1,31 @@
-load NAME .
+load CHAN .
 load CINNI .
-load NAMESET .
+load CHANSET .
 load SYNTAX .
 load SEMANTICS .
 
-search [mt] ((('x{0} < 'u{0} > . nil) + nil) | ('z{0}('u) . nil + nil)) =>! X:EnvAgent .
+*** SC-SUM-ASSOC
+red 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil) == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
+
+*** SC-SUM-COMM
+red 'x{0}('x) . nil + 'y{0}('y) . nil == 'y{0}('y) . nil + 'x{0}('x) . nil .
+
+*** SC-SUM-INACT
+red 'x{0}('x) . nil + nil == 'x{0}('x) . nil .
+
+*** SC-COMP-ASSOC
+red 'x{0}('x) . nil | ('y{0}('y) . nil | 'z{0}('z) . nil) == ('x{0}('x) . nil | 'y{0}('y) . nil) | 'z{0}('z) . nil .
+
+*** SC-COMP-COMM
+red 'x{0}('x) . nil | 'y{0}('y) . nil == 'y{0}('y) . nil | 'x{0}('x) . nil .
+
+*** SC-COMP-INACT
+red 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
+
+*** SC-RES
+red ['x]['y] nil == ['y]['x] nil .
+
+*** SC-RES-INACT
+red ['x] nil == nil .
 
 quit
