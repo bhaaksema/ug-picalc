@@ -1,7 +1,7 @@
-load CINNI .
-load CHANSET .
-load SYNTAX .
-load SEMANTICS .
+load cinni .
+load chanset .
+load syntax .
+load semantics .
 
 *** SC-SUM-ASSOC
 red 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil) == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
@@ -31,6 +31,7 @@ red ['x] nil == nil .
 red 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
 
 *** NIL
-search [empty] nil =>! X:EnvTrm .
+set trace on .
+search [empty] ! nil =>! X:EnvTrm .
 
 quit

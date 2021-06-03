@@ -1,7 +1,6 @@
 *** Calculus independent equations of CINNI
 
 fmod CINNI is
-  protecting NAT .
   protecting QID .
 
   *** Channel definition
