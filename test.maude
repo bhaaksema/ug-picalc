@@ -32,6 +32,6 @@ red 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) 
 
 *** NIL
 set trace on .
-search [empty] ! nil =>! X:EnvTrm .
+search [empty] nil =>! X:EnvTrm .
 
 quit

@@ -3,28 +3,31 @@
 fmod SYNTAX is
   protecting CINNI .
 
-  sort Guard .
+  sort Guard Input .
+  subsort Input < Guard .
   op _<_> : Chan Chan -> Guard [frozen prec 6] .
-  op _(_) : Chan Qid -> Guard [prec 5] .
+  op _(_) : Chan Qid -> Input [prec 5] .
 
   sort Trm .
-  op _|_ : Trm Trm -> Trm [frozen assoc comm prec 15 id: nil] .
+  op _|_ : Trm Trm -> Trm [frozen assoc comm prec 15] .
   op [_]_ : Qid Trm -> Trm [frozen prec 8] .
-  op !_ : Trm -> Trm [frozen prec 10] .
+  op !_._ : Input Trm -> Trm [frozen prec 10] .
 
   sort SumTrm .
   subsort SumTrm < Trm .
   op nil : -> SumTrm .
   op _._ : Guard Trm -> SumTrm [frozen prec 7] .
-  op _+_ : SumTrm SumTrm -> SumTrm [frozen assoc comm prec 12 id: nil] .
+  op _+_ : SumTrm SumTrm -> SumTrm [frozen assoc comm prec 12] .
 
   *** Structural congruence
+  var M : SumTrm .
   vars P Q : Trm .
   var x y : Qid .
+  eq M + nil = M .
+  eq P | nil = P .
   eq [x] nil = nil .
   ceq [x] P | Q = [x] (P | [shift x] Q) if P =/= nil and Q =/= nil .
   ceq [x] [y] P = [y] [x] P if string(y) < string(x) .
-  ---eq ! P = P | ! P . 
 
   *** Substitution rules
   var S : Subst .
@@ -34,7 +37,7 @@ fmod SYNTAX is
   eq S (a(x) . P) = (S a)(x) . ([lift x S] P) .
   ceq S (P | Q) = (S P) | (S Q) if Q =/= nil and P =/= nil .
   eq S ([x] P) = [x] ([lift x S] P) .
-  eq S (! P) = ! (S P) .
+  eq S (! a(x) . P) = ! (S a)(x) . ([lift x S] P) .
   eq S nil = nil .
   eq S (P + Q) = (S P) + (S Q) .
 endfm
