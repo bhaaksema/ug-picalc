@@ -10,20 +10,19 @@ fmod SYNTAX is
 
   sort Trm .
   op _|_ : Trm Trm -> Trm [frozen assoc comm prec 15] .
-  op [_]_ : Qid Trm -> Trm [frozen prec 8] .
-  op !_._ : Input Trm -> Trm [frozen prec 10] .
+  op [_]_ : Qid Trm -> Trm [frozen prec 10] .
+  op !_._ : Input Trm -> Trm [frozen prec 7] .
 
   sort SumTrm .
   subsort SumTrm < Trm .
   op nil : -> SumTrm .
-  op _._ : Guard Trm -> SumTrm [frozen prec 7] .
-  op _+_ : SumTrm SumTrm -> SumTrm [frozen assoc comm prec 12] .
+  op _._ : Guard Trm -> SumTrm [frozen prec 8] .
+  op _+_ : SumTrm SumTrm -> SumTrm [frozen assoc comm prec 12 id: nil] .
 
   *** Structural congruence
   var M : SumTrm .
   vars P Q : Trm .
   var x y : Qid .
-  eq M + nil = M .
   eq P | nil = P .
   eq [x] nil = nil .
   ceq [x] P | Q = [x] (P | [shift x] Q) if P =/= nil and Q =/= nil .

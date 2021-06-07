@@ -5,7 +5,7 @@ mod SEMANTICS is
   protecting SYNTAX .
 
   sorts EnvTrm .
-  op [_]_ : Chanset Trm -> EnvTrm [frozen] .
+  op {_}_ : Chanset Trm -> EnvTrm [frozen] .
 
   var CS : Chanset .
   vars P1 P1' P2 : Trm .
@@ -14,8 +14,8 @@ mod SEMANTICS is
   vars a b : Chan .
 
   *** Transitions rules without alpha equivalence
-  rl [COM] : [b CS] a < b > . P1 + M1 | a(x) . P2 + M2 => [b CS] P1 | [x := b] P2 .
-  rl [REP] : [b CS] a < b > . P1 + M1 | ! a(x) . P2 + M2 => [b CS] P1 | [x := b] P2 | ! a(x) . P2 .
-  crl [PAR] : [CS] P1 | P2 => [CS] P1' | P2 if [CS] P1 => [CS] P1' .
-  crl [RES] : [CS] [x] P1 => [CS] [x] P1' if [CS] P1 => [CS] P1' .
+  rl [COM] : {b CS} a < b > . P1 + M1 | a(x) . P2 + M2 => {b CS} P1 | [x := b] P2 .
+  rl [REP] : {b CS} a < b > . P1 + M1 | ! a(x) . P2 + M2 => {b CS} P1 | [x := b] P2 | ! a(x) . P2 .
+  crl [PAR] : {CS} P1 | P2 => {CS} P1' | P2 if {CS} P1 => {CS} P1' /\ P1 =/= P1' .
+  crl [RES] : {CS} [x] P1 => {CS} [x] P1' if {CS} P1 => {CS} P1' /\ P1 =/= P1' .
 endm

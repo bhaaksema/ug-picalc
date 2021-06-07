@@ -31,7 +31,18 @@ red ['x] nil == nil .
 red 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
 
 *** NIL
-set trace on .
-search [empty] nil =>! X:EnvTrm .
+search {empty} nil =>! X:EnvTrm .
+
+*** COM
+search {'y{0}} 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil  =>! X:EnvTrm .
+
+*** REP
+search {'y{0}} 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . nil | 'w{0}('w) . nil  =>! X:EnvTrm .
+
+*** PAR
+search {'y{0}} 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil =>! X:EnvTrm .
+
+*** RES
+search {'y{0}} ['x] ('x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil) =>! X:EnvTrm .
 
 quit
