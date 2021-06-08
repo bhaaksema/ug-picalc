@@ -1,5 +1,4 @@
 load cinni .
-load chanset .
 load syntax .
 load semantics .
 
@@ -31,18 +30,24 @@ red ['x] nil == nil .
 red 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
 
 *** NIL
-search {empty} nil =>! X:EnvTrm .
+search nil =>!  X:Trm .
 
 *** COM
-search {'y{0}} 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil  =>! X:EnvTrm .
+search 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil  =>!  X:Trm .
 
 *** REP
-search {'y{0}} 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . nil | 'w{0}('w) . nil  =>! X:EnvTrm .
+search 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . nil | 'w{0}('w) . nil  =>!  X:Trm .
 
 *** PAR
-search {'y{0}} 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil =>! X:EnvTrm .
+search 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil =>!  X:Trm .
 
 *** RES
-search {'y{0}} ['x] ('x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil) =>! X:EnvTrm .
+search ['x] ('x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil) =>!  X:Trm .
+
+*** Binding
+search ('x{0}('z) . 'z{0} < 'a{0} > . nil | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil) | 'y{0}('v) . 'v{0}('u) . nil =>!  X:Trm .
+
+*** Substitution
+search 'y{0} < 'z{0} > . nil | 'y{0}('x) . 'y{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Trm .
 
 quit

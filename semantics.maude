@@ -1,21 +1,16 @@
 *** Reduction semantics
 
 mod SEMANTICS is
-  protecting CHANSET .
   protecting SYNTAX .
 
-  sorts EnvTrm .
-  op {_}_ : Chanset Trm -> EnvTrm [frozen] .
-
-  var CS : Chanset .
   vars P1 P1' P2 : Trm .
   var M1 M2 : SumTrm .
   var x : Qid .
   vars a b : Chan .
 
   *** Transitions rules without alpha equivalence
-  rl [COM] : {b CS} a < b > . P1 + M1 | a(x) . P2 + M2 => {b CS} P1 | [x := b] P2 .
-  rl [REP] : {b CS} a < b > . P1 + M1 | ! a(x) . P2 + M2 => {b CS} P1 | [x := b] P2 | ! a(x) . P2 .
-  crl [PAR] : {CS} P1 | P2 => {CS} P1' | P2 if {CS} P1 => {CS} P1' /\ P1 =/= P1' .
-  crl [RES] : {CS} [x] P1 => {CS} [x] P1' if {CS} P1 => {CS} P1' /\ P1 =/= P1' .
+  rl [COM] : a < b > . P1 + M1 | a(x) . P2 + M2 => P1 | [x := b] P2 .
+  rl [REP] : a < b > . P1 + M1 | ! a(x) . P2 + M2 => P1 | [x := b] P2 | ! a(x) . P2 .
+  crl [PAR] : P1 | P2 => P1' | P2 if P1 => P1' /\ P1 =/= P1' .
+  crl [RES] : [x] P1 => [x] P1' if P1 => P1' /\ P1 =/= P1' .
 endm
