@@ -2,52 +2,34 @@ load cinni .
 load syntax .
 load semantics .
 
-*** SC-SUM-ASSOC
-red 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil) == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
+set print color on .
 
-*** SC-SUM-COMM
-red 'x{0}('x) . nil + 'y{0}('y) . nil == 'y{0}('y) . nil + 'x{0}('x) . nil .
+*** Structural Congruence
+*** SC-SUM-ASSOC SC-SUM-INACT SC-COMP-ASSOC SC-COMP-COMM SC-COMP-INACT SC-RES SC-RES-INACT SC-SC-RES-COMP
+reduce 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil) == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
+reduce 'x{0}('x) . nil + 'y{0}('y) . nil == 'y{0}('y) . nil + 'x{0}('x) . nil .
+reduce 'x{0}('x) . nil + nil == 'x{0}('x) . nil .
+reduce 'x{0}('x) . nil | ('y{0}('y) . nil | 'z{0}('z) . nil) == ('x{0}('x) . nil | 'y{0}('y) . nil) | 'z{0}('z) . nil .
+reduce 'x{0}('x) . nil | 'y{0}('y) . nil == 'y{0}('y) . nil | 'x{0}('x) . nil .
+reduce 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
+reduce ['x]['y] 'x{0}('x) . nil == ['y]['x] 'x{0}('x) . nil .
+reduce ['x] nil == nil .
+reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
 
-*** SC-SUM-INACT
-red 'x{0}('x) . nil + nil == 'x{0}('x) . nil .
-
-*** SC-COMP-ASSOC
-red 'x{0}('x) . nil | ('y{0}('y) . nil | 'z{0}('z) . nil) == ('x{0}('x) . nil | 'y{0}('y) . nil) | 'z{0}('z) . nil .
-
-*** SC-COMP-COMM
-red 'x{0}('x) . nil | 'y{0}('y) . nil == 'y{0}('y) . nil | 'x{0}('x) . nil .
-
-*** SC-COMP-INACT
-red 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
-
-*** SC-RES
-red ['x]['y] 'x{0}('x) . nil == ['y]['x] 'x{0}('x) . nil .
-
-*** SC-RES-INACT
-red ['x] nil == nil .
-
-*** SC-RES-COMP
-red 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
-
-*** NIL
-search nil =>!  X:Trm .
-
-*** COM
-search 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil  =>!  X:Trm .
-
-*** REP
-search 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . nil | 'w{0}('w) . nil  =>!  X:Trm .
-
-*** PAR
-search 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil =>!  X:Trm .
-
-*** RES
-search ['x] ('x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil) =>!  X:Trm .
+*** Operational Semantics
+*** R-COM R-REP R-PAR R-RES
+rewrite 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil .
+rewrite 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . nil | 'w{0}('w) . nil .
+rewrite 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil .
+rewrite ['x] ('x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil) .
 
 *** Binding
-search ('x{0}('z) . 'z{0} < 'a{0} > . nil | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil) | 'y{0}('v) . 'v{0}('u) . nil =>!  X:Trm .
+rewrite ('x{0}('z) . 'z{0} < 'a{0} > . nil | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil) | 'y{0}('v) . 'v{0}('u) . nil .
 
 *** Substitution
-search 'y{0} < 'z{0} > . nil | 'y{0}('x) . 'y{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Trm .
+rewrite 'y{0} < 'z{0} > . nil | 'y{0}('x) . 'y{0}('z) . 'z{0} < 'x{0} > . nil .
+
+*** Scope extrusion
+rewrite ['x] ('z{0} < 'x{0} > . 'x{0} < 'x{0} > . nil) | 'z{0}('y) . 'x{0} < 'x{0} > . nil .
 
 quit

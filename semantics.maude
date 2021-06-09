@@ -9,8 +9,8 @@ mod SEMANTICS is
   vars a b : Chan .
 
   *** Transitions rules without alpha equivalence
-  rl [COM] : a < b > . P1 + M1 | a(x) . P2 + M2 => P1 | [x := b] P2 .
-  rl [REP] : a < b > . P1 + M1 | ! a(x) . P2 + M2 => P1 | [x := b] P2 | ! a(x) . P2 .
-  crl [PAR] : P1 | P2 => P1' | P2 if P1 => P1' /\ P1 =/= P1' .
-  crl [RES] : [x] P1 => [x] P1' if P1 => P1' /\ P1 =/= P1' .
+  rl [R-COM] : a < b > . P1 + M1 | a(x) . P2 + M2 => P1 | [x := b] P2 .
+  rl [R-REP] : a < b > . P1 + M1 | ! a(x) . P2 + M2 => P1 | [x := b] P2 | ! a(x) . P2 .
+  crl [R-PAR] : P1 | P2 => P1' | P2 if P1 => P1' /\ P1 =/= P1' .
+  crl [R-RES] : [x] P1 => [x] P1' if P1 => P1' /\ P1 =/= P1' .
 endm
