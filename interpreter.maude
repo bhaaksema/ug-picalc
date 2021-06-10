@@ -1,0 +1,6 @@
+load cinni .
+load syntax .
+load semantics .
+
+set print color on .
+set show command off .
