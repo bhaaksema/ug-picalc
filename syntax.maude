@@ -5,7 +5,7 @@ fmod SYNTAX is
 
   sort Guard Input .
   subsort Input < Guard .
-  op _<_> : Chan Chan -> Guard [frozen prec 6] .
+  op _<_> : Chan Chan -> Guard [prec 6] .
   op _(_) : Chan Qid -> Input [prec 5] .
 
   sort Trm .
