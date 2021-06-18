@@ -18,18 +18,18 @@ reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('
 
 *** Operational Semantics
 *** R-COM R-REP R-PAR R-RES
-rewrite 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil .
-rewrite 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . nil | 'w{0}('w) . nil .
-rewrite 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil .
-rewrite ['x] ('x{0} < 'y{0} > . nil | 'x{0}('z) . nil | 'w{0}('w) . nil) .
+rewrite 'x{0} < 'y{0} > . nil | 'x{0}('z) . 'x{0} < 'z{0} > . nil .
+rewrite 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . 'z{0} < 'x{0} > . nil .
+rewrite 'x{0} < 'y{0} > . nil | 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil .
+rewrite ['y] ('x{0} < 'y{0} > . nil | 'x{0}('z) . 'x{0} < 'z{0} > . nil) .
 
 *** Binding
 rewrite ('x{0}('z) . 'z{0} < 'a{0} > . nil | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil) | 'y{0}('v) . 'v{0}('u) . nil .
 
 *** Substitution
-rewrite 'y{0} < 'z{0} > . nil | 'y{0}('x) . 'y{0}('z) . 'z{0} < 'x{0} > . nil .
+rewrite 'x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil | 'x{0}('z) . 'x{0} < 'z{0} > . nil .
 
 *** Scope extrusion
-rewrite ['x] ('z{0} < 'x{0} > . 'x{0} < 'x{0} > . nil) | 'z{0}('y) . 'x{0} < 'x{0} > . nil .
+rewrite ['y] ('x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil) | 'x{0}('z) . 'x{0} < 'y{0} > . nil .
 
 quit
