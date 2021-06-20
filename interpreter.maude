@@ -3,4 +3,5 @@ load syntax .
 load semantics .
 
 set print color on .
+set show advisories off .
 set show command off .

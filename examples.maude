@@ -3,33 +3,70 @@ load syntax .
 load semantics .
 
 set print color on .
+set show advisories off .
 
-*** Structural Congruence
-*** SC-SUM-ASSOC SC-SUM-INACT SC-COMP-ASSOC SC-COMP-COMM SC-COMP-INACT SC-RES SC-RES-INACT SC-SC-RES-COMP
-reduce 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil) == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
-reduce 'x{0}('x) . nil + 'y{0}('y) . nil == 'y{0}('y) . nil + 'x{0}('x) . nil .
+*** SC-SUM-ASSOC
+reduce 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil)
+  == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
+
+*** SC-SUM-COMM
+reduce 'x{0}('x) . nil + 'y{0}('y) . nil
+  == 'y{0}('y) . nil + 'x{0}('x) . nil .
+
+*** SC-SUM-INACT
 reduce 'x{0}('x) . nil + nil == 'x{0}('x) . nil .
-reduce 'x{0}('x) . nil | ('y{0}('y) . nil | 'z{0}('z) . nil) == ('x{0}('x) . nil | 'y{0}('y) . nil) | 'z{0}('z) . nil .
-reduce 'x{0}('x) . nil | 'y{0}('y) . nil == 'y{0}('y) . nil | 'x{0}('x) . nil .
-reduce 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
-reduce ['x]['y] 'x{0}('x) . nil == ['y]['x] 'x{0}('x) . nil .
-reduce ['x] nil == nil .
-reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
 
-*** Operational Semantics
-*** R-COM R-REP R-PAR R-RES
-rewrite 'x{0} < 'y{0} > . nil | 'x{0}('z) . 'x{0} < 'z{0} > . nil .
-rewrite 'x{0} < 'y{0} > . nil | ! 'x{0}('z) . 'z{0} < 'x{0} > . nil .
-rewrite 'x{0} < 'y{0} > . nil | 'x{0} < 'y{0} > . nil | 'x{0}('z) . nil .
-rewrite ['y] ('x{0} < 'y{0} > . nil | 'x{0}('z) . 'x{0} < 'z{0} > . nil) .
+*** SC-COMP-ASSOC
+reduce 'x{0}('x) . nil | ('y{0}('y) . nil | 'z{0}('z) . nil)
+  == ('x{0}('x) . nil | 'y{0}('y) . nil) | 'z{0}('z) . nil .
+
+*** SC-COMP-COMM
+reduce 'x{0}('x) . nil | 'y{0}('y) . nil
+  == 'y{0}('y) . nil | 'x{0}('x) . nil .
+
+*** SC-COMP-INACT
+reduce 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
+
+*** SC-RES
+reduce ['x]['y] 'x{0}('x) . nil == ['y]['x] 'x{0}('x) . nil .
+
+*** SC-RES-INACT
+reduce ['x] nil == nil .
+
+*** SC-SC-RES-COMP
+reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil
+  == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
+
+*** Communication
+search 'x{0} < 'y{0} > . nil
+  | 'x{0}('z) . 'x{0} < 'z{0} > . nil =>! X:Trm .
+
+*** Replication
+search 'x{0} < 'y{0} > . nil
+  | ! 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Trm .
+
+*** Internal action
+search tau . 'x{0} < 'y{0} > . nil =>! X:Trm .
+
+*** Parallel composition
+search 'x{0} < 'y{0} > . nil | 'x{0} < 'y{0} > . nil
+  | 'x{0}('z) . nil =>! X:Trm .
+
+*** Restriction
+search ['y] ('x{0} < 'y{0} > . nil
+  | 'x{0}('z) . 'x{0} < 'z{0} > . nil) =>! X:Trm .
 
 *** Binding
-rewrite ('x{0}('z) . 'z{0} < 'a{0} > . nil | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil) | 'y{0}('v) . 'v{0}('u) . nil .
+search ('x{0}('z) . 'z{0} < 'a{0} > . nil
+  | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil)
+  | 'y{0}('v) . 'v{0}('u) . nil =>! X:Trm .
 
 *** Substitution
-rewrite 'x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil | 'x{0}('z) . 'x{0} < 'z{0} > . nil .
+search 'x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil
+  | 'x{0}('z) . 'x{0} < 'z{0} > . nil =>! X:Trm .
 
 *** Scope extrusion
-rewrite ['y] ('x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil) | 'x{0}('z) . 'x{0} < 'y{0} > . nil .
+search ['y] ('x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil)
+  | 'x{0}('z) . 'x{0} < 'y{0} > . nil =>! X:Trm .
 
 quit
