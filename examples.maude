@@ -39,7 +39,7 @@ reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil
 
 *** Communication
 search 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'x{0} < 'z{0} > . nil =>! X:Trm .
+  | 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Trm .
 
 *** Replication
 search 'x{0} < 'y{0} > . nil
@@ -54,7 +54,7 @@ search 'x{0} < 'y{0} > . nil | 'x{0} < 'y{0} > . nil
 
 *** Restriction
 search ['y] ('x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'x{0} < 'z{0} > . nil) =>! X:Trm .
+  | 'x{0}('z) . 'z{0} < 'x{0} > . nil) =>! X:Trm .
 
 *** Binding
 search ('x{0}('z) . 'z{0} < 'a{0} > . nil
