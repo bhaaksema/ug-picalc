@@ -5,7 +5,7 @@ fmod SYNTAX is
 
   sort Guard Input .
   subsort Input < Guard .
-  op tau : -> Guard .
+  op tau : -> Guard [ctor].
   op _<_> : Chan Chan -> Guard [prec 6] .
   op _(_) : Chan Qid -> Input [prec 5] .
 
@@ -21,9 +21,8 @@ fmod SYNTAX is
   op _+_ : SumTrm SumTrm -> SumTrm [assoc comm prec 12 id: nil] .
 
   *** Structural congruence
-  var M : SumTrm .
   vars P Q : Trm .
-  var x y : Qid .
+  vars x y : Qid .
   eq [x] nil = nil .
   ceq [x] P | Q = [x] (P | [shift x] Q) if P =/= nil and Q =/= nil .
   ceq [x] [y] P = [y] [x] P if string(y) < string(x) .

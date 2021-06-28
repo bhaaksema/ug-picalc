@@ -5,7 +5,7 @@ fmod CINNI is
 
   *** Channel definition
   sort Chan .
-  op _{_} : Qid Nat -> Chan [prec 1] .
+  op _{_} : Qid Nat -> Chan [ctor prec 1] .
 
   sort Subst .
   op [_:=_] : Qid Chan -> Subst .
