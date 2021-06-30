@@ -1,5 +1,3 @@
-*** Calculus independent equations of CINNI
-
 fmod CINNI is
   protecting QID .
 
@@ -7,6 +5,7 @@ fmod CINNI is
   sort Chan .
   op _{_} : Qid Nat -> Chan [ctor prec 1] .
 
+  *** Calculus independent equations of CINNI
   sort Subst .
   op [_:=_] : Qid Chan -> Subst .
   op [shift_] : Qid -> Subst .

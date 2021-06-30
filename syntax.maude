@@ -1,8 +1,7 @@
-*** Syntax definition
-
 fmod SYNTAX is
   protecting CINNI .
-
+  
+  *** Syntax definition
   sort Guard Input .
   subsort Input < Guard .
   op tau : -> Guard [ctor].
@@ -20,17 +19,20 @@ fmod SYNTAX is
   op _._ : Guard Trm -> SumTrm [prec 7] .
   op _+_ : SumTrm SumTrm -> SumTrm [assoc comm prec 12 id: nil] .
 
-  *** Structural congruence
+  *** Scope extension
   vars P Q : Trm .
   vars x y : Qid .
+
   eq [x] nil = nil .
   ceq [x] P | Q = [x] (P | [shift x] Q) if P =/= nil and Q =/= nil .
   ceq [x] [y] P = [y] [x] P if string(y) < string(x) .
 
   *** Substitution rules
+  op __ : Subst Trm -> Trm [prec 3] .
+
   var S : Subst .
   vars a b : Chan .
-  op __ : Subst Trm -> Trm [prec 3] .
+
   eq S (tau . P) = tau . (S P) .
   eq S (a < b > . P) = (S a) < (S b) > . (S P) .
   eq S (a(x) . P) = (S a)(x) . ([lift x S] P) .
