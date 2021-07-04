@@ -2,33 +2,33 @@ fmod SYNTAX is
   protecting CINNI .
   
   *** Syntax definition
-  sort Guard Input .
+  sorts Guard Input .
   subsort Input < Guard .
   op tau : -> Guard [ctor].
   op _<_> : Chan Chan -> Guard [prec 6] .
   op _(_) : Chan Qid -> Input [prec 5] .
 
-  sort Trm .
-  op _|_ : Trm Trm -> Trm [assoc comm prec 15 id: nil] .
-  op [_]_ : Qid Trm -> Trm [prec 10] .
-  op !_._ : Input Trm -> Trm [prec 8] .
+  sort Term .
+  op _|_ : Term Term -> Term [assoc comm prec 15 id: nil] .
+  op [_]_ : Qid Term -> Term [prec 10] .
+  op !_._ : Input Term -> Term [prec 8] .
 
-  sort SumTrm .
-  subsort SumTrm < Trm .
-  op nil : -> SumTrm [ctor] .
-  op _._ : Guard Trm -> SumTrm [prec 7] .
-  op _+_ : SumTrm SumTrm -> SumTrm [assoc comm prec 12 id: nil] .
+  sort SumTerm .
+  subsort SumTerm < Term .
+  op nil : -> SumTerm [ctor] .
+  op _._ : Guard Term -> SumTerm [prec 7] .
+  op _+_ : SumTerm SumTerm -> SumTerm [assoc comm prec 12 id: nil] .
 
   *** Scope extension
-  vars P Q : Trm .
+  vars P P1 P2 : Term .
   vars x y : Qid .
 
   eq [x] nil = nil .
-  ceq [x] P | Q = [x] (P | [shift x] Q) if P =/= nil and Q =/= nil .
+  ceq [x] P1 | P2 = [x] (P1 | [shift x] P2) if P1 =/= nil and P2 =/= nil .
   ceq [x] [y] P = [y] [x] P if string(y) < string(x) .
 
   *** Substitution rules
-  op __ : Subst Trm -> Trm [prec 3] .
+  op __ : Subst Term -> Term [prec 3] .
 
   var S : Subst .
   vars a b : Chan .
@@ -36,9 +36,9 @@ fmod SYNTAX is
   eq S (tau . P) = tau . (S P) .
   eq S (a < b > . P) = (S a) < (S b) > . (S P) .
   eq S (a(x) . P) = (S a)(x) . ([lift x S] P) .
-  ceq S (P | Q) = (S P) | (S Q) if Q =/= nil and P =/= nil .
+  ceq S (P1 | P2) = (S P1) | (S P2) if P1 =/= nil and P2 =/= nil .
   eq S ([x] P) = [x] ([lift x S] P) .
   eq S (! a(x) . P) = ! (S a)(x) . ([lift x S] P) .
   eq S nil = nil .
-  eq S (P + Q) = (S P) + (S Q) .
+  eq S (P1 + P2) = (S P1) + (S P2) .
 endfm

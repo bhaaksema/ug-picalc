@@ -1,8 +1,8 @@
 mod SEMANTICS is
   protecting SYNTAX .
 
-  vars P1 P1' P2 : Trm .
-  vars M1 M2 : SumTrm .
+  vars P1 P1' P2 : Term .
+  vars M1 M2 : SumTerm .
   var x : Qid .
   vars a b : Chan .
 

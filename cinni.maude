@@ -12,19 +12,19 @@ fmod CINNI is
   op [lift__] : Qid Subst -> Subst .
   op __ : Subst Chan -> Chan .
 
-  vars x y : Qid .
+  vars a b : Qid .
   var n : Nat .
-  var a : Chan .
+  var x : Chan .
   var S : Subst .
 
-  eq [x := a] x{0} = a .
-  eq [x := a] x{s(n)} = x{n} .
-  ceq [x := a] y{n} = y{n} if x =/= y .
+  eq [a := x] a{0} = x .
+  eq [a := x] a{s(n)} = a{n} .
+  ceq [a := x] b{n} = b{n} if a =/= b .
 
-  eq [shift x] x{n} = x{s(n)} .
-  ceq [shift x] y{n} = y{n} if x =/= y .
+  eq [shift a] a{n} = a{s(n)} .
+  ceq [shift a] b{n} = b{n} if a =/= b .
 
-  eq [lift x S] x{0} = x{0} .
-  eq [lift x S] x{s(n)} = [shift x] S x{n} .
-  ceq [lift x S] y{n} = [shift x] S y{n} if x =/= y .
+  eq [lift a S] a{0} = a{0} .
+  eq [lift a S] a{s(n)} = [shift a] S a{n} .
+  ceq [lift a S] b{n} = [shift a] S b{n} if a =/= b .
 endfm

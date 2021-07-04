@@ -39,34 +39,34 @@ reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil
 
 *** Communication
 search 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Trm .
+  | 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Term .
 
 *** Replication
 search 'x{0} < 'y{0} > . nil
-  | ! 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Trm .
+  | ! 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Term .
 
 *** Internal action
-search tau . 'x{0} < 'y{0} > . nil =>! X:Trm .
+search tau . 'x{0} < 'y{0} > . nil =>! X:Term .
 
 *** Parallel composition
 search 'x{0} < 'y{0} > . nil | 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . nil =>! X:Trm .
+  | 'x{0}('z) . nil =>! X:Term .
 
 *** Restriction
 search ['y] ('x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'z{0} < 'x{0} > . nil) =>! X:Trm .
+  | 'x{0}('z) . 'z{0} < 'x{0} > . nil) =>! X:Term .
 
 *** Binding
 search ('x{0}('z) . 'z{0} < 'a{0} > . nil
   | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil)
-  | 'y{0}('v) . 'v{0}('u) . nil =>! X:Trm .
+  | 'y{0}('v) . 'v{0}('u) . nil =>! X:Term .
 
 *** Substitution
 search 'x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'x{0} < 'z{0} > . nil =>! X:Trm .
+  | 'x{0}('z) . 'x{0} < 'z{0} > . nil =>! X:Term .
 
 *** Scope extrusion
 search ['y] ('x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil)
-  | 'x{0}('z) . 'x{0} < 'y{0} > . nil =>! X:Trm .
+  | 'x{0}('z) . 'x{0} < 'y{0} > . nil =>! X:Term .
 
 quit
