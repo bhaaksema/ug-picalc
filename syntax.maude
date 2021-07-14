@@ -4,20 +4,20 @@ fmod SYNTAX is
   *** Syntax definition
   sorts Guard Input .
   subsort Input < Guard .
-  op tau : -> Guard [ctor].
-  op _<_> : Chan Chan -> Guard [prec 6] .
-  op _(_) : Chan Qid -> Input [prec 5] .
+  op tau : -> Guard [ctor] .
+  op _<_> : Chan Chan -> Guard [ctor prec 4] .
+  op _(_) : Chan Qid -> Input [ctor prec 3] .
 
   sort Term .
-  op _|_ : Term Term -> Term [assoc comm prec 15 id: nil] .
-  op [_]_ : Qid Term -> Term [prec 10] .
-  op !_._ : Input Term -> Term [prec 8] .
+  op _|_ : Term Term -> Term [ctor assoc comm prec 9 id: nil] .
+  op [_]_ : Qid Term -> Term [ctor prec 7] .
+  op !_._ : Input Term -> Term [ctor prec 6] .
 
   sort SumTerm .
   subsort SumTerm < Term .
   op nil : -> SumTerm [ctor] .
-  op _._ : Guard Term -> SumTerm [prec 7] .
-  op _+_ : SumTerm SumTerm -> SumTerm [assoc comm prec 12 id: nil] .
+  op _._ : Guard Term -> SumTerm [ctor prec 5] .
+  op _+_ : SumTerm SumTerm -> SumTerm [ctor assoc comm prec 8 id: nil] .
 
   *** Scope extension
   vars P P1 P2 : Term .
@@ -28,7 +28,7 @@ fmod SYNTAX is
   ceq [x] [y] P = [y] [x] P if string(y) < string(x) .
 
   *** Substitution rules
-  op __ : Subst Term -> Term [prec 3] .
+  op __ : Subst Term -> Term [ctor prec 2] .
 
   var S : Subst .
   vars a b : Chan .

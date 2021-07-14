@@ -2,71 +2,15 @@ load cinni .
 load syntax .
 load semantics .
 
-set print color on .
 set show advisories off .
 
-*** SC-SUM-ASSOC
-reduce 'x{0}('x) . nil + ('y{0}('y) . nil + 'z{0}('z) . nil)
-  == ('x{0}('x) . nil + 'y{0}('y) . nil) + 'z{0}('z) . nil .
-
-*** SC-SUM-COMM
-reduce 'x{0}('x) . nil + 'y{0}('y) . nil
-  == 'y{0}('y) . nil + 'x{0}('x) . nil .
-
-*** SC-SUM-INACT
-reduce 'x{0}('x) . nil + nil == 'x{0}('x) . nil .
-
-*** SC-COMP-ASSOC
-reduce 'x{0}('x) . nil | ('y{0}('y) . nil | 'z{0}('z) . nil)
-  == ('x{0}('x) . nil | 'y{0}('y) . nil) | 'z{0}('z) . nil .
-
-*** SC-COMP-COMM
-reduce 'x{0}('x) . nil | 'y{0}('y) . nil
-  == 'y{0}('y) . nil | 'x{0}('x) . nil .
-
-*** SC-COMP-INACT
-reduce 'x{0}('x) . nil | nil == 'x{0}('x) . nil .
-
-*** SC-RES
-reduce ['x]['y] 'x{0}('x) . nil == ['y]['x] 'x{0}('x) . nil .
-
-*** SC-RES-INACT
-reduce ['x] nil == nil .
-
-*** SC-SC-RES-COMP
-reduce 'y{0}('y) . nil | ['x] 'x{0}('x) . nil
-  == ['x] ('y{0}('y) . nil | 'x{0}('x) . nil) .
-
-*** Communication
-search 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Term .
-
-*** Replication
-search 'x{0} < 'y{0} > . nil
-  | ! 'x{0}('z) . 'z{0} < 'x{0} > . nil =>! X:Term .
-
-*** Internal action
-search tau . 'x{0} < 'y{0} > . nil =>! X:Term .
-
-*** Parallel composition
-search 'x{0} < 'y{0} > . nil | 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . nil =>! X:Term .
-
-*** Restriction
-search ['y] ('x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'z{0} < 'x{0} > . nil) =>! X:Term .
-
-*** Binding
-search ('x{0}('z) . 'z{0} < 'a{0} > . nil
-  | 'x{0} < 'w{0} > . 'y{0} < 'w{0} > . nil)
-  | 'y{0}('v) . 'v{0}('u) . nil =>! X:Term .
-
-*** Substitution
-search 'x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil
-  | 'x{0}('z) . 'x{0} < 'z{0} > . nil =>! X:Term .
-
 *** Scope extrusion
-search ['y] ('x{0} < 'y{0} > . 'x{0} < 'y{0} > . nil)
-  | 'x{0}('z) . 'x{0} < 'y{0} > . nil =>! X:Term .
+rewrite 'a{0}('x) . 'x{0} < 'b{0} > . nil | ['b] 'a{0} < 'b{0} > . tau . nil .
+
+*** Depth bound non-ternimation avoidance
+rewrite [128] 'a{0} < 'b{0} > . nil | ! 'a{0}('x) . 'a{0} < 'x{0} > . nil .
+
+*** Divergence
+search 'a{0} < 'b{0} > . nil + tau . nil | 'a{0}('x) . nil =>! X:Term .
 
 quit
